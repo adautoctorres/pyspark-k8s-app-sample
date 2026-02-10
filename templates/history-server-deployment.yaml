@@ -1,0 +1,48 @@
+{{- if .Values.historyServer.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.historyServer.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.historyServer.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.historyServer.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.historyServer.name }}
+    spec:
+      containers:
+      - name: history-server
+        image: "{{ .Values.historyServer.image.repository }}:{{ .Values.historyServer.image.tag }}"
+        imagePullPolicy: {{ .Values.historyServer.image.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.historyServer.service.port }}
+        env:
+        - name: SPARK_NO_DAEMONIZE
+          value: "1"
+        - name: SPARK_HISTORY_OPTS
+          value: "-Dspark.history.fs.logDirectory={{ .Values.historyServer.logDirectory }} -Dspark.history.fs.cleaner.enabled={{ .Values.historyServer.cleaner.enabled }} -Dspark.history.fs.cleaner.interval={{ .Values.historyServer.cleaner.interval }} -Dspark.history.fs.cleaner.maxAge={{ .Values.historyServer.cleaner.maxAge }}"
+        command: ["/opt/spark/bin/spark-class"]
+        args: ["org.apache.spark.deploy.history.HistoryServer"]
+        volumeMounts:
+        - name: history-logs
+          mountPath: {{ .Values.historyServer.mountPath }}
+        {{- with .Values.historyServer.resources }}
+        resources:
+{{ toYaml . | nindent 10 }}
+        {{- end }}
+      volumes:
+      - name: history-logs
+        {{- if .Values.historyServer.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.historyServer.persistence.claimName }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+{{- end }}

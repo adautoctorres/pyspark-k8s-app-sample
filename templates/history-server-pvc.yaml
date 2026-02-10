@@ -1,0 +1,18 @@
+{{- if and .Values.historyServer.enabled .Values.historyServer.persistence.enabled .Values.historyServer.persistence.create }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.historyServer.persistence.claimName }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.historyServer.name }}
+spec:
+  accessModes:
+{{ toYaml .Values.historyServer.persistence.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.historyServer.persistence.size }}
+  {{- if .Values.historyServer.persistence.storageClassName }}
+  storageClassName: {{ .Values.historyServer.persistence.storageClassName }}
+  {{- end }}
+{{- end }}

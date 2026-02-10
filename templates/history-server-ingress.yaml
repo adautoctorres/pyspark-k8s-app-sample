@@ -1,0 +1,36 @@
+{{- if and .Values.historyServer.enabled .Values.historyServer.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.historyServer.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.historyServer.name }}
+  {{- with .Values.historyServer.ingress.annotations }}
+  annotations:
+{{ toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.historyServer.ingress.className }}
+  ingressClassName: {{ .Values.historyServer.ingress.className }}
+  {{- end }}
+  rules:
+  {{- range .Values.historyServer.ingress.hosts }}
+    - host: {{ .host }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.historyServer.name }}
+                port:
+                  number: {{ $.Values.historyServer.service.port }}
+        {{- end }}
+  {{- end }}
+  {{- if .Values.historyServer.ingress.tls }}
+  tls:
+{{ toYaml .Values.historyServer.ingress.tls | nindent 4 }}
+  {{- end }}
+{{- end }}

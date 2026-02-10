@@ -19,3 +19,38 @@ rbac:
   create: true
   roleName: spark-role
   roleBindingName: spark-rb
+
+historyServer:
+  enabled: true
+  name: spark-history
+  image:
+    repository: apache/spark
+    tag: 3.5.8
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 18080
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+    hosts:
+      - host: spark-history.local
+        paths:
+          - /
+    tls: []
+  mountPath: /opt/spark/history
+  logDirectory: file:/opt/spark/history
+  cleaner:
+    enabled: true
+    interval: 1d
+    maxAge: 7d
+  resources: {}
+  persistence:
+    enabled: true
+    create: true
+    claimName: spark-history-logs
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+    storageClassName: ""

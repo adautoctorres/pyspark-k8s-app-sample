@@ -6,6 +6,7 @@ install:
 
 uninstall:
 	helm uninstall $(RELEASE) --namespace $(NAMESPACE)
+	kubectl delete namespace $(NAMESPACE)
 
 template:
 	helm template $(RELEASE) . --namespace $(NAMESPACE)

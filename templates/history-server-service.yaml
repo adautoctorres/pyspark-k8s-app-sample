@@ -1,0 +1,17 @@
+{{- if .Values.historyServer.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.historyServer.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.historyServer.name }}
+spec:
+  type: {{ .Values.historyServer.service.type }}
+  selector:
+    app: {{ .Values.historyServer.name }}
+  ports:
+  - name: http
+    port: {{ .Values.historyServer.service.port }}
+    targetPort: http
+{{- end }}
