@@ -1,6 +1,6 @@
 # App PySpark
 
-Aplicacao PySpark simples usada pelo chart Helm na raiz do repositorio.
+Aplicação PySpark simples usada pelo chart Helm na raiz do repositório.
 
 ## Funcionamento
 
@@ -11,3 +11,12 @@ Esta aplicação PySpark realiza processamento de dados distribuído. Ela é con
 ```sh
 make build
 ```
+
+## Execução
+
+Para rodar a aplicação, entre no shell do pod e execute:
+
+```sh
+bash /opt/spark/app/scripts/run-submit.sh
+```
+
