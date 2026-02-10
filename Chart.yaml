@@ -1,0 +1,4 @@
+apiVersion: v2
+name: pyspark-native
+version: 0.1.0
+description: Kubernetes RBAC and service account for Spark native submit

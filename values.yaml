@@ -1,0 +1,21 @@
+namespace:
+  name: pyspark-app
+
+deployment:
+  enabled: true
+  name: pyspark-app
+  replicas: 1
+
+image:
+  repository: pyspark-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: spark-sa
+
+rbac:
+  create: true
+  roleName: spark-role
+  roleBindingName: spark-rb
