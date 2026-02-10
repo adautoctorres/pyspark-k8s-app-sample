@@ -1,4 +1,8 @@
+DOCKER_IMAGE ?= pyspark-app:latest
+DOCKER_FILE ?= Dockerfile
+
 config:
+	@echo "Configurações..."
 
 build:
-	docker build -t pyspark-app:latest .
+	docker build -t $(DOCKER_IMAGE) -f $(DOCKER_FILE) .
