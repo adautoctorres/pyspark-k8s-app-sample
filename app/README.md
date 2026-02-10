@@ -1,9 +1,15 @@
-# PySpark App
+# App PySpark
 
-Simple PySpark application used by the Helm chart in `app-chart`.
+Aplicacao PySpark simples usada pelo chart Helm na raiz do repositorio.
 
 ## Build
 
 ```sh
-docker build -t pyspark-app:latest .
+make build
+```
+
+## Instalacao do chart
+
+```sh
+make install
 ```

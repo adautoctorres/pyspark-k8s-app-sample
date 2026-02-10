@@ -1,13 +1,13 @@
-# PySpark Native RBAC Chart
+# Chart RBAC PySpark Native
 
-This chart provisions the namespace, service account, and RBAC needed for native Spark submit on Kubernetes.
+Este chart provisiona a service account e o RBAC necessarios para o spark-submit nativo no Kubernetes. O namespace deve existir ou ser criado pelo Helm com --create-namespace.
 
-## Install
+## Instalacao
 
 ```sh
-helm install pyspark-native ./app-chart
+make install
 ```
 
 ## Values
 
-Edit `values.yaml` to change the namespace or names for the service account and RBAC resources.
+Edite o `values.yaml` para mudar o namespace ou nomes da service account e recursos de RBAC.
