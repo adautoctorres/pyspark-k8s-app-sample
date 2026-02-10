@@ -4,3 +4,5 @@ __pycache__/
 *.pyd
 *.log
 *.tmp
+Makefile
+README.md
